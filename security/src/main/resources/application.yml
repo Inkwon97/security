@@ -9,12 +9,14 @@ spring:
     activate:
       on-profile: local
 
+# database
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306
+    url: jdbc:mysql://localhost:3306/my_database
     username: root
-    password: {DATABASE_PASSWORD}
+    password: ${DATABASE_PASSWORD}
 
+# jpa
   jpa:
     hibernate:
       ddl-auto: create
@@ -22,4 +24,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
+  # devtools
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
