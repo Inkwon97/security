@@ -15,4 +15,7 @@ public class AccountDto {
     private String age;
     private String role;
 
+    public Account toEntity() {
+        return new Account(username, password, email, age, role);
+    }
 }

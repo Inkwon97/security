@@ -30,9 +30,8 @@ public class UserController {
 	@PostMapping(value="/users")
 	public String createUser(AccountDto accountDto) throws Exception {
 
-		ModelMapper modelMapper = new ModelMapper();
-		Account account = modelMapper.map(accountDto, Account.class);
-		account.setPassword(passwordEncoder.encode(accountDto.getPassword()));
+		Account account = accountDto.toEntity();
+		account.setPassword(passwordEncoder.encode(account.getPassword()));
 		userService.createUser(account);
 
 		return "redirect:/";

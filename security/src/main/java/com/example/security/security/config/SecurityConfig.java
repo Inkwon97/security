@@ -1,4 +1,4 @@
-package com.example.security.config;
+package com.example.security.security.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -18,15 +18,6 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        String password = passwordEncoder().encode("1111");
-
-        auth.inMemoryAuthentication().withUser("user").password(password).roles("USER");
-        auth.inMemoryAuthentication().withUser("manager").password(password).roles("MANAGER", "USER");
-        auth.inMemoryAuthentication().withUser("admin").password(password).roles("ADMIN", "MANAGER", "USER");
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
