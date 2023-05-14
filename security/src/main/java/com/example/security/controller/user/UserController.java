@@ -1,44 +1,46 @@
 package com.example.security.controller.user;
 
+
+import com.example.security.domain.Account;
 import com.example.security.domain.AccountDto;
-import com.example.security.service.UserServiceImpl;
+import com.example.security.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import com.example.security.domain.Account;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class UserController {
+	
+	@Autowired
+	private UserService userService;
 
-    private final UserServiceImpl userService;
-    private final PasswordEncoder passwordEncoder;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
-    public UserController(UserServiceImpl userService, PasswordEncoder passwordEncoder) {
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-    }
+	@GetMapping(value="/users")
+	public String createUser() throws Exception {
 
-    @GetMapping(value = "mypage")
-    public String myPage() throws Exception{
-        return "user/mypage";
-    }
+		return "user/login/register";
+	}
 
-    @GetMapping("/users")
-    public String createUser() {
-        return "user/login/register";
-    }
+	@PostMapping(value="/users")
+	public String createUser(AccountDto accountDto) throws Exception {
 
-    @PostMapping("/users")
-    public String createUser(AccountDto accountDto) {
+		ModelMapper modelMapper = new ModelMapper();
+		Account account = modelMapper.map(accountDto, Account.class);
+		account.setPassword(passwordEncoder.encode(accountDto.getPassword()));
+		userService.createUser(account);
 
-        ModelMapper modelMapper = new ModelMapper();
-        Account account = modelMapper.map(accountDto, Account.class);
+		return "redirect:/";
+	}
 
-        account.setPassword(passwordEncoder.encode(account.getPassword()));
-        userService.createUser(account);
+	@GetMapping(value="/mypage")
+	public String myPage() throws Exception {
 
-        return "redirect:/";
-    }
+		return "user/mypage";
+	}
 }

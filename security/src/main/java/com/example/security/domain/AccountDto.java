@@ -1,10 +1,12 @@
 package com.example.security.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
-@Getter
+@Getter @Setter
 public class AccountDto {
 
     private String username;
@@ -12,4 +14,5 @@ public class AccountDto {
     private String email;
     private String age;
     private String role;
+
 }
